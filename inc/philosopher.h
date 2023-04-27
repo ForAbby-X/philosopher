@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 20:24:09 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/04/25 23:50:06 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:12:19 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,93 @@
 # define PHILOSOPHER_H
 
 # include <pthread.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <sys/time.h>
 # include "return.h"
 
-typedef unsigned long					t_id;
-typedef struct s_philosopher volatile	t_philosopher;
-typedef struct s_table volatile			t_table;
+// ## type definitions ## //
+typedef long					t_id;
+typedef pthread_mutex_t			t_fork;
+typedef unsigned long			t_time;
+typedef struct s_philosopher 	t_phil;
+typedef struct s_table 			t_table;
 
-t_ret	phil_init(t_philosopher *const phil, size_t const id);
-void	phil_destroy(t_philosopher *const phil);
-
-t_ret	table_init(t_table *const table, size_t	const nb_philo);
-void	table_destroy(t_table *const table);
-
-t_ret	table_run();
+// ## structures ## //
+typedef struct s_time_data
+{
+	t_time			last_eat;
+	t_time			time_start;
+	t_time			time_to_die;
+	t_time			time_to_eat;
+	t_time			time_to_sleep;
+}	t_tdata;
 
 struct s_philosopher
 {
 	t_id			id;
 	size_t			eating_counter;
+	t_table			*table;
 	pthread_t		thread;
-	pthread_mutex_t	fork;
+	t_fork			fork;
+	t_tdata			tdata;
 };
 
 struct s_table
 {
-	t_philosopher	*tab;
+	t_phil	*tab;
 	size_t			size;
 	t_id			running;
 	pthread_mutex_t	m_running;
 	pthread_mutex_t	m_printing;
 };
+
+// ## enumerations ## //
+enum e_msg{
+	MSG_FORK,
+	MSG_EATING,
+	MSG_SLEEPING,
+	MSG_THINKING,
+	MSG_DIED
+};
+
+// ## philosopher ## //
+t_ret	phil_init(
+			t_phil *const phil,
+			t_table *const table,
+			t_tdata	const tdata,
+			size_t const id);
+void	phil_destroy(t_phil *const phil);
+
+// ## table ## //
+t_ret	table_init(t_table *const table, size_t	const nb_philo, t_tdata tdata);
+void	table_destroy(t_table *const table);
+
+// ## geter ## //
+t_phil	*table_get(t_table *const table, t_id const id)
+		__attribute__((always_inline));
+
+// ## time ## //
+t_time	get_time_mili(void)
+		__attribute__((always_inline));
+t_time	get_timestamp(t_time const last)
+		__attribute__((always_inline));
+
+// ## messages ## //
+void	phil_msg(t_phil const *const phil, enum e_msg msg)
+		__attribute__((always_inline));
+
+// ## actions ## //
+t_ret	phil_eat(t_phil *const phil);
+t_ret	phil_sleep(t_phil *const phil);
+t_ret	phil_think(t_phil *const phil);
+void	phil_die(t_phil *const phil);
+
+// ## simulation ## //
+t_ret	phil_stop_or_die(t_phil *const phil)
+		__attribute__((always_inline));
+t_ret	table_run(t_table *const table)
+		__attribute__((always_inline));
 
 #endif

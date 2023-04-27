@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/16 05:02:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/04/27 17:28:20 by mcourtoi         ###   ########.fr       */
+/*   Created: 2023/04/27 04:39:34 by mcourtoi          #+#    #+#             */
+/*   Updated: 2023/04/27 04:49:07 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-int	main(void)
+t_time	get_time_mili(void)
 {
-	t_table	table;
+	struct timeval		tv;
+	unsigned long long	ret;
 
-	if (table_init(&table, 5, 
-		(t_tdata){0, 0, .time_to_die=800, .time_to_eat=200, .time_to_sleep=200}))
-		return (1);
-	if (table_run(&table))
-		return (table_destroy(&table), 1);
-	table_destroy(&table);
-	return (0);
+	gettimeofday(&tv, NULL);
+	ret = tv.tv_sec * 1000;
+	ret += tv.tv_usec / 1000;
+	return (ret);
+}
+
+t_time	get_timestamp(t_time const last)
+{
+	return (get_time_mili() - last);
 }

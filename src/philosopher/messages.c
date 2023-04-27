@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   messages.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/16 05:02:42 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/04/27 17:28:20 by mcourtoi         ###   ########.fr       */
+/*   Created: 2023/04/27 03:04:02 by mcourtoi          #+#    #+#             */
+/*   Updated: 2023/04/27 17:02:00 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-int	main(void)
-{
-	t_table	table;
+static const char	*g_msg[5] = {
+"%09lu %lu has taken a fork\n",
+"%09lu %lu is eating\n",
+"%09lu %lu is sleeping\n",
+"%09lu %lu is thinking\n",
+"%09lu %lu died\n"
+};
 
-	if (table_init(&table, 5, 
-		(t_tdata){0, 0, .time_to_die=800, .time_to_eat=200, .time_to_sleep=200}))
-		return (1);
-	if (table_run(&table))
-		return (table_destroy(&table), 1);
-	table_destroy(&table);
-	return (0);
+void	phil_msg(t_phil const *const phil, enum e_msg msg)
+{
+	pthread_mutex_lock(&phil->table->m_printing);
+	printf(g_msg[msg], get_timestamp(phil->tdata.time_start), phil->id + 1);
+	pthread_mutex_unlock(&phil->table->m_printing);
 }

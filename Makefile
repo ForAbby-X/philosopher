@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+         #
+#    By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/25 09:39:09 by alde-fre          #+#    #+#              #
-#    Updated: 2023/04/25 21:31:11 by alde-fre         ###   ########.fr        #
+#    Updated: 2023/04/27 16:56:13 by mcourtoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,14 @@ OBJDIR	=	./obj
 ###				SOURCE FILES			###
 ###########################################
 SRC		=	\
-			main.c\
-			philosopher.c
-
+			main.c					\
+			philosopher/manager.c	\
+			philosopher/getter.c	\
+			philosopher/time.c		\
+			philosopher/messages.c	\
+			philosopher/simulation.c\
+			philosopher/actions.c
+			
 
 ###########################################
 ###				OBJECT FILES			###

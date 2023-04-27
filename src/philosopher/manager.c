@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 20:50:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/04/25 23:58:49 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/04/27 17:10:04 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,32 @@
 
 /*
 ** Initialise the philosopher.
-** Returns ERR if it fails.
+** Returns ERR if it fails else OK.
 */
-t_ret	phil_init(t_philosopher *const phil, size_t const id)
+t_ret	phil_init(
+	t_phil *const phil,
+	t_table *const table,
+	t_tdata	const tdata,
+	size_t const id)
 {
 	phil->id = id;
 	phil->eating_counter = 0;
-	if (pthread_create(&phil->thread, NULL, phil->thread, NULL))
-		return (ERR);
+	phil->table = table;
+	phil->tdata = tdata;
 	if (pthread_mutex_init(&phil->fork, NULL))
 		return (ERR);
+	return (OK);
 }
 
 /*
-** Destroy the philosopher.
+** Destroys the philosopher.
 */
-void	phil_destroy(t_philosopher *const phil)
+void	phil_destroy(t_phil *const phil)
 {
 	pthread_mutex_destroy(&phil->fork);
 }
 
-static inline void	__table_clear(t_table *const table, size_t	const nb_philo)
+static inline void	__table_clear(t_table *const table, size_t const nb_philo)
 {
 	size_t	i;
 
@@ -50,14 +55,17 @@ static inline void	__table_clear(t_table *const table, size_t	const nb_philo)
 }
 
 /*
-** Initialise the table of philosopher.
+** Initialise the table of philosophers.
 ** Returns ERR if it fails, OK if success.
 */
-t_ret	table_init(t_table *const table, size_t	const nb_philo)
+t_ret	table_init(
+	t_table *const table,
+	size_t const nb_philo,
+	t_tdata tdata)
 {
 	size_t	i;
 
-	table->tab = malloc(nb_philo * sizeof(t_philosopher));
+	table->tab = malloc(nb_philo * sizeof(t_phil));
 	if (table->tab == NULL)
 		return (ERR);
 	table->size = nb_philo;
@@ -68,16 +76,16 @@ t_ret	table_init(t_table *const table, size_t	const nb_philo)
 	i = 0;
 	while (i < nb_philo)
 	{
-		if (phil_init(table->tab + i, i) == ERR)
+		if (phil_init(table->tab + i, table, tdata,  i))
 			return (__table_clear(table, i), ERR);
 		i++;
 	}
-	table->running = 0;
+	table->running = -1;
 	return (OK);
 }
 
 /*
-** Destroy the table of philosopher.
+** Destroys the table of philosophers.
 */
 void	table_destroy(t_table *const table)
 {
