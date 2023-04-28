@@ -6,7 +6,7 @@
 #    By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/25 09:39:09 by alde-fre          #+#    #+#              #
-#    Updated: 2023/04/27 16:56:13 by mcourtoi         ###   ########.fr        #
+#    Updated: 2023/04/28 01:32:39 by mcourtoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,13 +22,13 @@ OBJDIR	=	./obj
 ###########################################
 SRC		=	\
 			main.c					\
-			philosopher/manager.c	\
-			philosopher/getter.c	\
-			philosopher/time.c		\
-			philosopher/messages.c	\
-			philosopher/simulation.c\
-			philosopher/actions.c
-			
+			manager.c	\
+			getter.c	\
+			time.c		\
+			messages.c	\
+			simulation.c\
+			actions.c	\
+			parsing.c			
 
 ###########################################
 ###				OBJECT FILES			###

@@ -6,7 +6,7 @@
 /*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 20:50:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/04/27 17:10:04 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/04/28 03:31:16 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ static inline void	__table_clear(t_table *const table, size_t const nb_philo)
 t_ret	table_init(
 	t_table *const table,
 	size_t const nb_philo,
-	t_tdata tdata)
+	t_tdata const tdata,
+	size_t	const must_eat)
 {
 	size_t	i;
 
@@ -69,6 +70,8 @@ t_ret	table_init(
 	if (table->tab == NULL)
 		return (ERR);
 	table->size = nb_philo;
+	table->total_satiated = 0;
+	table->meal_goal = must_eat;
 	if (pthread_mutex_init(&table->m_running, NULL))
 		return (__table_clear(table, 0), ERR);
 	if (pthread_mutex_init(&table->m_printing, NULL))

@@ -6,13 +6,13 @@
 /*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 23:43:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/04/27 17:13:30 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/04/28 04:14:57 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
-static inline t_ret	__table_is_running(t_table *const table)
+t_ret	table_is_running(t_table *const table)
 {
 	t_ret	ret;
 
@@ -24,25 +24,31 @@ static inline t_ret	__table_is_running(t_table *const table)
 
 t_ret	phil_stop_or_die(t_phil *const phil)
 {
-	if (!__table_is_running(phil->table))
+	if (!table_is_running(phil->table))
 		return (KO);
 	if (get_timestamp(phil->tdata.last_eat) >= phil->tdata.time_to_die)
 		return (phil_die(phil), KO);
 	return (OK);
 }
 
-t_ret	phil_loop(t_phil *const phil)
+void	phil_add_meal(t_phil *const phil)
 {
-	if (phil_eat(phil) || phil_sleep(phil) || phil_think(phil))
-		return (KO);
-	return (OK);
+	pthread_mutex_lock(&phil->table->m_running);
+	if (phil->table->running == -1
+		&& phil->tdata.nb_meal == phil->tdata.meal_goal)
+	{
+		phil->table->total_satiated++;
+		if (phil->table->total_satiated >= phil->table->size)
+			phil->table->running = phil->id;
+	}
+	pthread_mutex_unlock(&phil->table->m_running);
 }
 
 static inline void	*__phil_run(void *const data)
 {
-	t_phil *const	self = data;
+	t_phil *const	phil = data;
 
-	while (!phil_loop(self))
+	while (!(phil_eat(phil) || phil_sleep(phil) || phil_think(phil)))
 		;
 	return (NULL);
 }

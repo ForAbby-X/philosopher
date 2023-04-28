@@ -6,7 +6,7 @@
 /*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 03:04:02 by mcourtoi          #+#    #+#             */
-/*   Updated: 2023/04/27 17:02:00 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/04/28 04:16:36 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ static const char	*g_msg[5] = {
 
 void	phil_msg(t_phil const *const phil, enum e_msg msg)
 {
-	pthread_mutex_lock(&phil->table->m_printing);
-	printf(g_msg[msg], get_timestamp(phil->tdata.time_start), phil->id + 1);
-	pthread_mutex_unlock(&phil->table->m_printing);
+	pthread_mutex_lock(&phil->table->m_running);
+	if (phil->table->running == -1 || phil->table->running == phil->id)
+	{
+		pthread_mutex_lock(&phil->table->m_printing);
+		printf(g_msg[msg], get_timestamp(phil->tdata.time_start), phil->id + 1);
+		pthread_mutex_unlock(&phil->table->m_printing);
+	}
+	pthread_mutex_unlock(&phil->table->m_running);
 }
