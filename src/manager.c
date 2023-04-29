@@ -6,7 +6,7 @@
 /*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 20:50:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/04/28 03:31:16 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/04/29 02:26:46 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static inline void	__table_clear(t_table *const table, size_t const nb_philo)
 		i++;
 	}
 	pthread_mutex_destroy(&table->m_running);
-	pthread_mutex_destroy(&table->m_printing);
 	free(table->tab);
 }
 
@@ -73,8 +72,6 @@ t_ret	table_init(
 	table->total_satiated = 0;
 	table->meal_goal = must_eat;
 	if (pthread_mutex_init(&table->m_running, NULL))
-		return (__table_clear(table, 0), ERR);
-	if (pthread_mutex_init(&table->m_printing, NULL))
 		return (__table_clear(table, 0), ERR);
 	i = 0;
 	while (i < nb_philo)

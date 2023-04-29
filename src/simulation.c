@@ -6,7 +6,7 @@
 /*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 23:43:28 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/04/28 04:14:57 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/04/29 02:26:33 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_ret	phil_stop_or_die(t_phil *const phil)
 
 void	phil_add_meal(t_phil *const phil)
 {
+	phil->tdata.nb_meal++;
 	pthread_mutex_lock(&phil->table->m_running);
 	if (phil->table->running == -1
 		&& phil->tdata.nb_meal == phil->tdata.meal_goal)
@@ -48,6 +49,8 @@ static inline void	*__phil_run(void *const data)
 {
 	t_phil *const	phil = data;
 
+	pthread_mutex_lock(&phil->table->m_running);
+	pthread_mutex_unlock(&phil->table->m_running);
 	while (!(phil_eat(phil) || phil_sleep(phil) || phil_think(phil)))
 		;
 	return (NULL);
@@ -60,6 +63,7 @@ t_ret	table_run(t_table *const table)
 	t_time const	time_start = get_time_mili();
 
 	i = 0;
+	pthread_mutex_lock(&table->m_running);
 	while (i < table->size)
 	{
 		phil = table_get(table, i);
@@ -69,6 +73,7 @@ t_ret	table_run(t_table *const table)
 			return (ERR);
 		i++;
 	}
+	pthread_mutex_unlock(&table->m_running);
 	i = 0;
 	while (i < table->size)
 	{

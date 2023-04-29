@@ -6,7 +6,7 @@
 /*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 20:24:09 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/04/28 03:43:07 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/04/29 02:26:30 by mcourtoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ struct s_table
 	size_t			meal_goal;
 	t_id			running;
 	pthread_mutex_t	m_running;
-	pthread_mutex_t	m_printing;
 };
 
 // ## enumerations ## //
@@ -102,7 +101,7 @@ t_time	get_timestamp(t_time const last)
 		__attribute__((always_inline));
 
 // ## messages ## //
-void	phil_msg(t_phil const *const phil, enum e_msg msg)
+void	phil_msg(t_phil const *const phil, enum e_msg const msg)
 		__attribute__((always_inline));
 
 // ## actions ## //
@@ -112,10 +111,12 @@ t_ret	phil_think(t_phil *const phil);
 void	phil_die(t_phil *const phil);
 
 // ## simulation ## //
-t_ret	table_is_running(t_table *const table);
+t_ret	table_is_running(t_table *const table)
+		__attribute__((always_inline));
 t_ret	phil_stop_or_die(t_phil *const phil)
 		__attribute__((always_inline));
-void	phil_add_meal(t_phil *const phil);
+void	phil_add_meal(t_phil *const phil)
+		__attribute__((always_inline));
 t_ret	table_run(t_table *const table)
 		__attribute__((always_inline));
 

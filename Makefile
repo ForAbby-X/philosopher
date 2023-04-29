@@ -6,7 +6,7 @@
 #    By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/25 09:39:09 by alde-fre          #+#    #+#              #
-#    Updated: 2023/04/28 01:32:39 by mcourtoi         ###   ########.fr        #
+#    Updated: 2023/04/29 01:51:45 by mcourtoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJDIR	=	./obj
 ###				SOURCE FILES			###
 ###########################################
 SRC		=	\
-			main.c					\
+			main.c		\
 			manager.c	\
 			getter.c	\
 			time.c		\
@@ -60,7 +60,7 @@ obj:
 
 $(NAME): $(OBJ)
 	@echo "\e[1;35mLinking...\e[0m"
-	@$(CC) -pg -lpthread -o $@ $+
+	@$(CC) -lpthread -o $@ $+
 	@echo "\e[1;32m➤" $@ "created succesfully !\e[0m"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c .print
