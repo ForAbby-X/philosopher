@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   messages.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 03:04:02 by mcourtoi          #+#    #+#             */
-/*   Updated: 2023/04/29 02:11:43 by mcourtoi         ###   ########.fr       */
+/*   Created: 2023/05/20 01:02:17 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/05/20 01:19:44 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
 
 static char const *const	g_msg[5] = {
-"%09lu %lu has taken a fork\n",
-"%09lu %lu is eating\n",
-"%09lu %lu is sleeping\n",
-"%09lu %lu is thinking\n",
-"%09lu %lu died\n"
+	"%09lu %lu has taken a fork\n",
+	"%09lu %lu is eating\n",
+	"%09lu %lu is sleeping\n",
+	"%09lu %lu is thinking\n",
+	"%09lu %lu died\n"
 };
 
 void	phil_msg(t_phil const *const phil, enum e_msg const msg)

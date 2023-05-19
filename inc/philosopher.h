@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosopher.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 20:24:09 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/04/29 02:26:30 by mcourtoi         ###   ########.fr       */
+/*   Updated: 2023/05/20 01:20:35 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 typedef long					t_id;
 typedef pthread_mutex_t			t_fork;
 typedef int						t_time;
-typedef struct s_philosopher 	t_phil;
-typedef struct s_table 			t_table;
+typedef struct s_philosopher	t_phil;
+typedef struct s_table			t_table;
 
 // ## structures ## //
 typedef struct s_time_data
@@ -51,7 +51,7 @@ struct s_philosopher
 
 struct s_table
 {
-	t_phil	*tab;
+	t_phil			*tab;
 	size_t			size;
 	size_t			total_satiated;
 	size_t			meal_goal;
@@ -70,9 +70,9 @@ enum e_msg{
 
 // ## parsing ## //
 t_ret	parse_input(
-	t_table *const table,
-	char *const *const input,
-	int const count);
+			t_table *const table,
+			char *const *const input,
+			int const count);
 
 // ## philosopher ## //
 t_ret	phil_init(

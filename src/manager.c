@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/23 20:50:43 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/04/29 02:26:46 by mcourtoi         ###   ########.fr       */
+/*   Created: 2023/05/20 01:02:12 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/05/20 01:18:54 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_ret	table_init(
 	i = 0;
 	while (i < nb_philo)
 	{
-		if (phil_init(table->tab + i, table, tdata,  i))
+		if (phil_init(table->tab + i, table, tdata, i))
 			return (__table_clear(table, i), ERR);
 		i++;
 	}

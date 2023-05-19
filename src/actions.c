@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 04:20:13 by mcourtoi          #+#    #+#             */
-/*   Updated: 2023/05/14 12:37:24 by alde-fre         ###   ########.fr       */
+/*   Created: 2023/05/20 01:01:54 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/05/20 01:13:27 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_ret	phil_think(t_phil *const phil)
 {
 	phil_msg(phil, MSG_THINKING);
 	if (phil->tdata.time_to_eat >= phil->tdata.time_to_sleep)
-		usleep((phil->tdata.time_to_eat / 2)
+		usleep((phil->tdata.time_to_eat - phil->tdata.time_to_sleep + 1)
 			* 1000);
 	return (phil_stop_or_die(phil));
 }

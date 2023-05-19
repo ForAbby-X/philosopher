@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcourtoi <mcourtoi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/28 00:58:30 by mcourtoi          #+#    #+#             */
-/*   Updated: 2023/04/28 03:20:12 by mcourtoi         ###   ########.fr       */
+/*   Created: 2023/05/20 01:02:22 by alde-fre          #+#    #+#             */
+/*   Updated: 2023/05/20 01:20:07 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_ret	parse_input(
 	char *const *const input,
 	int const count)
 {
-	t_tdata tdata;
+	t_tdata	tdata;
 	t_time	nb_philo;
 	t_time	must_eat;
 
