@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/23 20:24:09 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/05/20 01:24:01 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/05/23 05:24:17 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ t_phil	*table_get(t_table *const table, t_id const id)
 		__attribute__((always_inline));
 
 // ## time ## //
+t_ret	msleep(t_phil *const phil, t_time const time)
+		__attribute__((always_inline));
 t_time	get_time_mili(void)
 		__attribute__((always_inline));
 t_time	get_timestamp(t_time const last)

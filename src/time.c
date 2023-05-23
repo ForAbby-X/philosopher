@@ -6,11 +6,24 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 01:02:31 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/05/20 01:24:57 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/05/23 05:24:01 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosopher.h"
+
+t_ret	msleep(t_phil *const phil, t_time const time)
+{
+	t_time const	target = get_time_mili() + time;
+
+	while (get_time_mili() < target)
+	{
+		if (phil_stop_or_die(phil))
+			return (KO);
+		usleep(125);
+	}
+	return (OK);
+}
 
 t_time	get_time_mili(void)
 {

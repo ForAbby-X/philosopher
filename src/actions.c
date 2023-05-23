@@ -6,7 +6,7 @@
 /*   By: alde-fre <alde-fre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/20 01:01:54 by alde-fre          #+#    #+#             */
-/*   Updated: 2023/05/20 01:13:27 by alde-fre         ###   ########.fr       */
+/*   Updated: 2023/05/23 05:26:13 by alde-fre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ t_ret	phil_eat(t_phil *const phil)
 		return (pthread_mutex_unlock(fork_1), KO);
 	phil_msg(phil, MSG_FORK);
 	if (fork_1 == fork_2)
-		return (usleep(phil->tdata.time_to_die * 1000), phil_die(phil), KO);
+		return (msleep(phil, phil->tdata.time_to_die), phil_die(phil), KO);
 	pthread_mutex_lock(fork_2);
 	if (phil_stop_or_die(phil))
 		return (pthread_mutex_unlock(fork_1), pthread_mutex_unlock(fork_2), KO);
 	phil_msg(phil, MSG_FORK);
 	phil_msg(phil, MSG_EATING);
 	phil->tdata.last_eat = get_time_mili();
-	usleep(phil->tdata.time_to_eat * 1000);
+	msleep(phil, phil->tdata.time_to_eat);
 	phil_add_meal(phil);
 	pthread_mutex_unlock(fork_2);
 	pthread_mutex_unlock(fork_1);
@@ -51,7 +51,7 @@ t_ret	phil_eat(t_phil *const phil)
 t_ret	phil_sleep(t_phil *const phil)
 {
 	phil_msg(phil, MSG_SLEEPING);
-	usleep(phil->tdata.time_to_sleep * 1000);
+	msleep(phil, phil->tdata.time_to_sleep);
 	return (phil_stop_or_die(phil));
 }
 
@@ -59,8 +59,7 @@ t_ret	phil_think(t_phil *const phil)
 {
 	phil_msg(phil, MSG_THINKING);
 	if (phil->tdata.time_to_eat >= phil->tdata.time_to_sleep)
-		usleep((phil->tdata.time_to_eat - phil->tdata.time_to_sleep + 1)
-			* 1000);
+		msleep(phil, (phil->tdata.time_to_eat - phil->tdata.time_to_sleep + 1));
 	return (phil_stop_or_die(phil));
 }
 
